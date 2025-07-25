@@ -8,10 +8,10 @@ import zipfile
 import os
 
 def init_scenery():
-    sceneria = input("📦 Podaj nazwę katalogu scenerii: ").strip()
+    sceneria = input("Podaj nazwę katalogu scenerii: ").strip()
     katalog = Path(sceneria)
     if not katalog.exists():
-        print(f"❌ Katalog '{sceneria}' nie istnieje.")
+        print(f" Katalog '{sceneria}' nie istnieje.")
         return None
     Path("tmp").mkdir(exist_ok=True)
     Path("tmp/sceneria.txt").write_text(sceneria, encoding="utf-8")
@@ -19,20 +19,20 @@ def init_scenery():
     #apt_path = katalog / "apt.dat"
     apt_files = list(katalog.rglob("apt.dat"))
     if not apt_files:
-        print(f"❌ Nie znaleziono pliku 'apt.dat' w katalogu '{sceneria}'")
+        print(f" Nie znaleziono pliku 'apt.dat' w katalogu '{sceneria}'")
         return None
 
     apt_path = apt_files[0]  # pierwszy znaleziony
 
     if not apt_path.exists():
-        print(f"❌ Brak pliku 'apt.dat' w katalogu '{sceneria}'")
+        print(f" Brak pliku 'apt.dat' w katalogu '{sceneria}'")
         return None
 
     try:
         lines = apt_path.read_text(encoding="utf-8").splitlines()
         wersja = lines[1].strip() if len(lines) > 1 else "BRAK"
     except Exception as e:
-        print(f"❌ Błąd przy odczycie 'apt.dat': {e}")
+        print(f" Błąd przy odczycie 'apt.dat': {e}")
         return None
 
     Path("raporty").mkdir(exist_ok=True)
@@ -40,19 +40,19 @@ def init_scenery():
         log.write(f"Sceneria: {sceneria}, apt.dat wersja: {wersja}\n")
 
     if not wersja.startswith("1200"):
-        print(f"⚠️ Nieobsługiwana wersja apt.dat: {wersja}. Zatrzymano działanie.")
+        print(f" Nieobsługiwana wersja apt.dat: {wersja}. Zatrzymano działanie.")
         return None
 
     Path("tmp").mkdir(exist_ok=True)
     Path("tmp/sceneria.txt").write_text(sceneria, encoding="utf-8")
-    print(f"✅ Sceneria '{sceneria}' zaakceptowana. Wersja apt.dat: {wersja}")
+    print(f" Sceneria '{sceneria}' zaakceptowana. Wersja apt.dat: {wersja}")
 
     return sceneria
 
 def pobierz_sciezke_scenerii():
     sc_path = Path("tmp/sceneria.txt")
     if not sc_path.exists():
-        print("❌ Nie znaleziono pliku tmp/sceneria.txt. Uruchom najpierw init_scenery()")
+        print(" Nie znaleziono pliku tmp/sceneria.txt. Uruchom najpierw init_scenery()")
         return None
     return sc_path.read_text(encoding="utf-8").strip()
 
@@ -60,7 +60,7 @@ def konwertuj_dsf_na_tekst(scenery_path, output_path):
     Path("tmp").mkdir(parents=True, exist_ok=True)
     dsf_files = list(Path(scenery_path).rglob("*.dsf"))
     if not dsf_files:
-        print("❌ Nie znaleziono plików DSF w:", scenery_path)
+        print(" Nie znaleziono plików DSF w:", scenery_path)
         return False
 
     with output_path.open("w", encoding="utf-8") as output_file:
@@ -78,7 +78,7 @@ def konwertuj_dsf_na_tekst(scenery_path, output_path):
                 text = temp_txt.read_text(encoding="utf-8")
                 output_file.write(f"### {dsf.name} ###\n{text}\n\n")
             else:
-                print(f"❌ Błąd dla pliku {dsf.name}:\n{result.stderr}")
+                print(f" Błąd dla pliku {dsf.name}:\n{result.stderr}")
     return True
 
 def wypisz_i_zapisz_definicje():
@@ -86,7 +86,7 @@ def wypisz_i_zapisz_definicje():
     output_path = Path("tmp/output2.txt")
 
     if not input_path.exists():
-        print("❌ Plik tmp/output.txt nie istnieje.")
+        print(" Plik tmp/output.txt nie istnieje.")
         return
 
     with input_path.open(encoding="utf-8") as infile, output_path.open("w", encoding="utf-8") as outfile:
@@ -94,14 +94,14 @@ def wypisz_i_zapisz_definicje():
             if linia.startswith("OBJECT_DEF") or linia.startswith("POLYGON_DEF"):
                 outfile.write(linia)
 
-    print("📄 Zapisano linie OBJECT_DEF i POLYGON_DEF do tmp/output2.txt")
+    print(" Zapisano linie OBJECT_DEF i POLYGON_DEF do tmp/output2.txt")
 
 def przetworz_output_do_output3():
     wejscie = Path("tmp/output2.txt")
     wyjscie = Path("tmp/output3.txt")
 
     if not wejscie.exists():
-        print("❌ Nie znaleziono pliku:", wejscie)
+        print(" Nie znaleziono pliku:", wejscie)
         return
 
     wynik = []
@@ -118,14 +118,14 @@ def przetworz_output_do_output3():
     with wyjscie.open("w", encoding="utf-8") as f:
         f.writelines(wynik)
 
-    print("✅ Zapisano wynik do tmp/output3.txt")
+    print(" Zapisano wynik do tmp/output3.txt")
 
 def rozdziel_obiekty():
     input_file = Path("tmp/output3.txt")
     sceneria_file = Path("tmp/sceneria.txt")
 
     if not sceneria_file.exists():
-        print("❌ Brak pliku tmp/sceneria.txt z nazwą katalogu scenerii.")
+        print(" Brak pliku tmp/sceneria.txt z nazwą katalogu scenerii.")
         return
 
     scenery_path = sceneria_file.read_text(encoding="utf-8").strip()
@@ -135,7 +135,7 @@ def rozdziel_obiekty():
     zewnetrzne = []
 
     if not input_file.exists():
-        print("❌ Brak pliku tmp/output3.txt")
+        print(" Brak pliku tmp/output3.txt")
         return
 
     with input_file.open("r", encoding="utf-8") as f:
@@ -153,9 +153,9 @@ def rozdziel_obiekty():
     Path("tmp/lokalne.txt").write_text("\n".join(lokalne), encoding="utf-8")
     Path("tmp/zewnetrzne.txt").write_text("\n".join(zewnetrzne), encoding="utf-8")
 
-    print(f"✅ Lokalnych obiektów: {len(lokalne)}")
-    print(f"⚠️ Zewnętrznych obiektów: {len(zewnetrzne)}")
-    print("📁 Zapisano raporty w folderze 'tmp'")   
+    print(f" Lokalnych obiektów: {len(lokalne)}")
+    print(f"️ Zewnętrznych obiektów: {len(zewnetrzne)}")
+    print(" Zapisano raporty w folderze 'tmp'")   
      
 def wypisz_tekstury(scenery_path):
     input_file = Path("tmp/lokalne.txt")
@@ -163,7 +163,7 @@ def wypisz_tekstury(scenery_path):
     output_file.parent.mkdir(exist_ok=True)
 
     if not input_file.exists():
-        print("❌ Brak pliku:", input_file)
+        print(" Brak pliku:", input_file)
         return
 
     wynik = []
@@ -179,21 +179,21 @@ def wypisz_tekstury(scenery_path):
                             if linia_obj.strip().startswith("TEXTURE"):
                                 wynik.append(linia_obj.strip())
                 except Exception as e:
-                    wynik.append(f"❌ Błąd odczytu: {sciezka_obj} → {e}")
+                    wynik.append(f" Błąd odczytu: {sciezka_obj} → {e}")
             else:
-                wynik.append(f"❌ Nie znaleziono pliku: {sciezka_obj}")
+                wynik.append(f" Nie znaleziono pliku: {sciezka_obj}")
 
     with output_file.open("w", encoding="utf-8") as f_out:
         f_out.write("\n".join(wynik))
 
-    print(f"📄 Zapisano listę tekstur do: {output_file}")
+    print(f" Zapisano listę tekstur do: {output_file}")
 
 def wyczysc_lokalne_tekstury():
     wejscie = Path("tmp/lokalne_tekstury.txt")
     wyjscie = Path("tmp/lokalne_tekstury_cleaned.txt")
 
     if not wejscie.exists():
-        print("❌ Brak pliku:", wejscie)
+        print(" Brak pliku:", wejscie)
         return
 
     tekstury = set()
@@ -208,7 +208,7 @@ def wyczysc_lokalne_tekstury():
     with wyjscie.open("w", encoding="utf-8", newline="\n") as f:
         f.write("\n".join(sorted(tekstury)) + "\n")
 
-    print(f"✅ Zapisano oczyszczoną listę tekstur do: {wyjscie}")
+    print(f" Zapisano oczyszczoną listę tekstur do: {wyjscie}")
 
 def znajdz_tekstury(bazowa_sciezka):
     wejscie = Path("tmp/lokalne_tekstury_cleaned.txt")
@@ -216,7 +216,7 @@ def znajdz_tekstury(bazowa_sciezka):
     wyjscie.parent.mkdir(exist_ok=True)
 
     if not wejscie.exists():
-        print(f"❌ Brak pliku wejściowego: {wejscie}")
+        print(f" Brak pliku wejściowego: {wejscie}")
         return
 
     tekstury = [linia.strip() for linia in wejscie.read_text(encoding="utf-8").splitlines() if linia.strip()]
@@ -232,7 +232,7 @@ def znajdz_tekstury(bazowa_sciezka):
                 znalezione.append(str(sciezka_wzgledna))
 
     wyjscie.write_text("\n".join(sorted(znalezione)), encoding="utf-8")
-    print(f"✅ Zapisano {len(znalezione)} ścieżek względnych do: {wyjscie}")
+    print(f" Zapisano {len(znalezione)} ścieżek względnych do: {wyjscie}")
 
 def buduj_i_pakuj(scenery_path):
     scenery_dir = Path(scenery_path).resolve()
@@ -246,19 +246,19 @@ def buduj_i_pakuj(scenery_path):
     obiekty = Path("tmp/obiekty_do_budowy.txt")
 
     if not lokalne.exists() or not file3.exists():
-        print("❌ Brak plików tmp/lokalne.txt lub tmp/file3.txt")
+        print(" Brak plików tmp/lokalne.txt lub tmp/file3.txt")
         return
 
     linie = lokalne.read_text(encoding="utf-8").splitlines() + file3.read_text(encoding="utf-8").splitlines()
     obiekty.write_text("\n".join(sorted(set(linie))), encoding="utf-8")
-    print("📄 Utworzono tmp/obiekty_do_budowy.txt")
+    print(" Utworzono tmp/obiekty_do_budowy.txt")
 
     # 2. Kopiuj Earth nav data
     earth_src = scenery_dir / "Earth nav data"
     earth_dst = release_dir / "Earth nav data"
     if earth_src.exists():
         shutil.copytree(earth_src, earth_dst, dirs_exist_ok=True)
-        print("✅ Skopiowano Earth nav data")
+        print(" Skopiowano Earth nav data")
 
         # 3. Kopiuj pliki z listy
     for linia in obiekty.read_text(encoding="utf-8").splitlines():
@@ -278,11 +278,11 @@ def buduj_i_pakuj(scenery_path):
             dst.parent.mkdir(parents=True, exist_ok=True)
             try:
                 shutil.copy2(src, dst)
-                print(f"📁 Skopiowano: {rel_path}")
+                print(f" Skopiowano: {rel_path}")
             except Exception as e:
-                print(f"⚠️ Błąd kopiowania {rel_path}: {e}")
+                print(f"️ Błąd kopiowania {rel_path}: {e}")
         else:
-            print(f"⚠️ Nie znaleziono pliku: {src}")
+            print(f"️ Nie znaleziono pliku: {src}")
 
 
     # 4. Pakuj do ZIP
@@ -292,7 +292,7 @@ def buduj_i_pakuj(scenery_path):
             if file.is_file():
                 zipf.write(file, arcname=file.relative_to(release_dir))
 
-    print(f"📦 Spakowano paczkę do ZIP: {zip_path}")
+    print(f" Spakowano paczkę do ZIP: {zip_path}")
 
 from pathlib import Path
 import shutil
@@ -302,7 +302,7 @@ from datetime import datetime
 def sprzataj_i_backupuj():
     sceneria_file = Path("tmp/sceneria.txt")
     if not sceneria_file.exists():
-        print("❌ Brak pliku tmp/sceneria.txt")
+        print(" Brak pliku tmp/sceneria.txt")
         return
 
     scenery_name = sceneria_file.read_text(encoding="utf-8").strip()
@@ -325,12 +325,12 @@ def sprzataj_i_backupuj():
                     if file.is_file():
                         zipf.write(file, arcname=file.relative_to("."))
 
-    print(f"📦 Zrobiono backup do: {backup_zip_path}")
+    print(f" Zrobiono backup do: {backup_zip_path}")
 
     # Usuwamy zawartość tmp/ i raporty/
     for katalog in katalogi_do_spakowania:
         folder = Path(katalog)
         if folder.exists():
             shutil.rmtree(folder)
-            print(f"🧹 Usunięto katalog: {folder}")
+            print(f" Usunięto katalog: {folder}")
 
