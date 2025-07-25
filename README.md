@@ -1,11 +1,11 @@
-# PackScape
+PackScape
 Narzędzie do analizy i pakowania scenerii X-Plane: konwersja DSF, wykrywanie obiektów, generowanie raportów, budowanie paczek ZIP.
 
-# ✈️ X-Plane Scenery Toolkit
+# X-Plane Scenery Toolkit
 
 Projekt w Pythonie służący do analizy, oczyszczania i pakowania scenerii dla symulatora lotu **X-Plane**. Automatyzuje wykrywanie zależności, generowanie raportów oraz tworzenie gotowej paczki ZIP ze scenerią.
 
-## 📦 Funkcje aplikacji
+## Funkcje aplikacji
 
 - Inicjalizacja scenerii (walidacja struktury katalogów, `apt.dat`)
 - Konwersja plików `.dsf` do formatu tekstowego za pomocą `DSFTool`
@@ -16,7 +16,7 @@ Projekt w Pythonie służący do analizy, oczyszczania i pakowania scenerii dla 
 - Generowanie paczki ZIP gotowej do dystrybucji
 - Tworzenie raportu HTML i backupu danych
 
-## ⚙️ Wymagania
+## Wymagania
 
 - Python 3.9+
 - Moduły: `fpdf2`, `pathlib`, `shutil`, `zipfile`
@@ -28,7 +28,7 @@ Projekt w Pythonie służący do analizy, oczyszczania i pakowania scenerii dla 
 ```bash
 pip install fpdf2
 
-🛠 Struktura projektu
+Struktura projektu
 
 projekt/
 ├── main.py                    # Główny plik uruchamiający cały pipeline
@@ -39,7 +39,7 @@ projekt/
 ├── release/                   # Gotowe spakowane paczki ZIP
 ├── backup/                    # Archiwalne logi i dane po pakowaniu
 
-🚀 Użycie
+Użycie
 
 1.Umieść katalog scenerii w folderze projektu.
 2.Uruchom główny skrypt:
@@ -49,11 +49,11 @@ python main.py
 3.Postępuj zgodnie z komunikatami w terminalu.
 4.Spakowana paczka znajdzie się w release/, a logi w backup/.
 
-📝 Przykładowy raport
+Przykładowy raport
 
 Program generuje czytelny raport HTML z podsumowaniem zawartości scenerii i używanych zasobów.
 
-🔐 Licencja
+Licencja
 
 Projekt dostępny na licencji MIT. Używaj swobodnie, ale nie zapomnij o autorze 😉
 
