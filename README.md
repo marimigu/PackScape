@@ -58,5 +58,9 @@ Program generuje czytelny raport HTML z podsumowaniem zawartości scenerii i uż
 Projekt dostępny na licencji MIT. Używaj swobodnie, ale nie zapomnij o autorze 😉
 
 Projekt hobbystyczny stworzony przez entuzjastę X-Plane i Pythona.
+```
+## Co jeszcze?
+Należy sprawdzić działanie kodu przy dwóch czy może więcej plikach .dsf 
+
 
 
