@@ -58,5 +58,7 @@ python main.py
 
 ## Autor
 Mariusz Migut
+
 Repozytorium: github.com/marimigu/PackScape
+
 Inspiracja: Społeczność X-Plane.org
