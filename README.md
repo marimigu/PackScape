@@ -35,7 +35,7 @@ projekt/
 ├── scenery_pipeline.py        # Moduł z funkcjami przetwarzania scenerii
 ├── xptools/tools/DSFTool      # Binarna aplikacja DSFTool (Linux/Windows)
 ├── tmp/                       # Dane tymczasowe (ścieżki, raporty cząstkowe)
-├── raporty/                   # Raporty HTML i logi
+├── raporty/                   # Raporty i logi
 ├── release/                   # Gotowe spakowane paczki ZIP
 ├── backup/                    # Archiwalne logi i dane po pakowaniu
 
@@ -48,19 +48,15 @@ python main.py
 
 3.Postępuj zgodnie z komunikatami w terminalu.
 4.Spakowana paczka znajdzie się w release/, a logi w backup/.
-
-Przykładowy raport
-
-Program generuje czytelny raport HTML z podsumowaniem zawartości scenerii i używanych zasobów.
-
-Licencja
-
-Projekt dostępny na licencji MIT. Używaj swobodnie, ale nie zapomnij o autorze 😉
-
-Projekt hobbystyczny stworzony przez entuzjastę X-Plane i Pythona.
 ```
-## Co jeszcze?
-Należy sprawdzić działanie kodu przy dwóch czy może więcej plikach .dsf 
+## Pomysły na rozwój
+- Obsługa niestandardowych lokalizacji DSFTool
+- Sprawdzanie brakujących tekstur
+- Interfejs graficzny (GUI)
+- Eksport raportu jak  HTML lub PDF
 
 
-
+## Autor
+Mariusz Migut
+Repozytorium: github.com/marimigu/PackScape
+Inspiracja: Społeczność X-Plane.org

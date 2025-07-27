@@ -1,0 +1,19 @@
+# ignoruj plik
+PackScape X Plane Scenery.md
+# ignoruj wszystkie pliki .pdf
+#*.pdf
+# ignoruj pliki .ods
+#*.ods
+# ignoruj pliki .csv - narazie
+#*.csv
+# ignoruj pliki .py
+#*.py
+#ignoruj pliki .txt
+#*.txt
+# ignoruj pliki .log
+#*.log
+
+#ignoruj katalogi
+
+__pycache__/
+
