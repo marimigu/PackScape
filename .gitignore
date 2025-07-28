@@ -9,7 +9,7 @@ PackScape X Plane Scenery.md
 # ignoruj pliki .py
 #*.py
 #ignoruj pliki .txt
-#*.txt
+*.txt
 # ignoruj pliki .log
 #*.log
 

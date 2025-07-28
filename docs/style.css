@@ -1,0 +1,10 @@
+body {
+  font-family: sans-serif;
+  max-width: 800px;
+  margin: 2em auto;
+  padding: 0 1em;
+  line-height: 1.6;
+}
+h1 { color: #374785; }
+code { background: #eee; padding: 2px 4px; border-radius: 4px; }
+
