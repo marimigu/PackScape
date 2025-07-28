@@ -1,5 +1,4 @@
-PackScape
-Narzędzie do analizy i pakowania scenerii X-Plane: konwersja DSF, wykrywanie obiektów, generowanie raportów, budowanie paczek ZIP.
+PackScape.
 
 # X-Plane Scenery Toolkit
 
@@ -62,3 +61,5 @@ Mariusz Migut
 Repozytorium: github.com/marimigu/PackScape
 
 Inspiracja: Społeczność X-Plane.org
+
+[Projekt ma swoją stronę](https://marimigu.github.io/PackScape/) 
