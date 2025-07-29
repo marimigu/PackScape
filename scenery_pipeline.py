@@ -233,6 +233,115 @@ def znajdz_tekstury(bazowa_sciezka):
 
     wyjscie.write_text("\n".join(sorted(znalezione)), encoding="utf-8")
     print(f" Zapisano {len(znalezione)} ścieżek względnych do: {wyjscie}")
+#--------------------------------szukam plików które są nieuzywane -----------------------------
+def znajdz_nieuzywane_pliki():
+    sc_file = Path("tmp/sceneria.txt")
+    if not sc_file.exists():
+        print("❌ Brak pliku tmp/sceneria.txt. Uruchom najpierw main.py")
+        return
+
+    sciezka_katalogu = Path(sc_file.read_text(encoding="utf-8").strip()).resolve()
+
+    # Lista używanych plików
+    lista1 = Path("tmp/obiekty_do_budowy.txt").read_text(encoding="utf-8").splitlines() if Path("tmp/obiekty_do_budowy.txt").exists() else []
+
+    # Wyciągamy katalogi z wpisów
+    unikalne_katalogi = set(Path(wpis).parent for wpis in lista1 if Path(wpis).parent != Path('.'))
+
+    # Zbieramy wszystkie pliki
+    plik_wszystkie = Path("tmp/wszystkie_pliki.txt")
+    with plik_wszystkie.open("w", encoding="utf-8") as f:
+        for katalog in sorted(unikalne_katalogi):
+            if katalog.is_dir():
+                for plik in katalog.rglob("*"):
+                    if plik.is_file():
+                        try:
+                            rel_path = plik.relative_to(Path.cwd())
+                        except ValueError:
+                            rel_path = plik
+                        f.write(str(rel_path) + "\n")
+            else:
+                f.write(f"# ❌ Katalog nie istnieje: {katalog}\n")
+
+    # Obliczamy różnicę
+    wszystkie = set(plik_wszystkie.read_text(encoding="utf-8").splitlines())
+    uzywane = set(lista1)
+    nieuzywane = wszystkie - uzywane
+
+    # Zapisujemy wynik
+    plik_wynik = Path("tmp/nieuzywane.txt")
+    with plik_wynik.open("w", encoding="utf-8") as f:
+        for wpis in sorted(nieuzywane):
+            f.write(wpis + "\n")
+
+    print(f"✅ Zapisano {len(nieuzywane)} nieużywanych plików do: {plik_wynik}")
+
+
+#------------------------------- miejsce na raport html -----------------------------------
+def generuj_raport_html():
+    sc_file = Path("tmp/sceneria.txt")
+    if not sc_file.exists():
+        print("❌ Brak pliku tmp/sceneria.txt. Uruchom najpierw main.py")
+        sys.exit(1)
+
+    scenery = Path(sc_file.read_text(encoding="utf-8").strip()).resolve()
+    scenery_name = scenery.name
+    raport_dir = Path("raporty")
+    raport_dir.mkdir(exist_ok=True)
+    html_path = raport_dir / f"{scenery_name}.html"
+
+    # 1. Pliki podstawowe
+    pliki_podstawowe = list(scenery.rglob("Earth nav data/**/*.dsf")) + list(scenery.rglob("apt.dat"))
+
+    # 2. Dokumentacja
+    dokumentacja = sorted([p for p in scenery.rglob("*") if p.name in {
+        "BetterPushback_routes.dat", "earth.wed.xml", "validation_report.txt"
+    }])
+
+    # 3. Dołączone pliki
+    dolaczone = Path("tmp/obiekty_do_budowy.txt").read_text(encoding="utf-8").splitlines() if Path("tmp/obiekty_do_budowy.txt").exists() else []
+
+    # 4. Nieużywane (placeholder)
+    nieuzywane = Path("tmp/nieuzywane.txt").read_text(encoding="utf-8").splitlines() if Path("tmp/nieuzywane.txt").exists() else []
+
+    # 5. Zewnętrzne (missing)
+    missing = Path("tmp/zewnetrzne.txt").read_text(encoding="utf-8").splitlines() if Path("tmp/zewnetrzne.txt").exists() else []
+
+    def sekcja(naglowek, lista):
+        return f"<h2>{naglowek}</h2><ul>" + "".join(f"<li>{x}</li>" for x in lista) + "</ul>"
+
+    html = f"""<!DOCTYPE html>
+<html lang="pl">
+<head>
+  <meta charset="UTF-8">
+  <title>Raport – {scenery_name}</title>
+  <style>
+    body {{ font-family: sans-serif; max-width: 800px; margin: 2em auto; }}
+    h1 {{ color: #264653; }}
+    h2 {{ color: #2a9d8f; }}
+    li {{ margin-bottom: 4px; }}
+    ul {{ padding-left: 1.2em; }}
+  </style>
+</head>
+<body>
+  <h1>Raport scenerii: {scenery_name}</h1>
+  <p>Data: {datetime.now().strftime("%Y-%m-%d %H:%M:%S")}</p>
+
+  {sekcja("📦 Pliki podstawowe", [str(p.relative_to(scenery)) for p in pliki_podstawowe])}
+  {sekcja("📄 Dokumentacja", [str(p.relative_to(scenery)) for p in dokumentacja])}
+  {sekcja("📁 Dołączone pliki (obiekty_do_budowy)", dolaczone)}
+  {sekcja("🗑️ Nieużywane pliki (placeholder)", nieuzywane)}
+  {sekcja("❌ Missing / Zewnętrzne obiekty", missing)}
+
+</body>
+</html>
+"""
+    html_path.write_text(html, encoding="utf-8")
+    print(f"✅ Wygenerowano raport: {html_path}")
+
+
+#---------------------------------koniec raportu--------------------------------------------
+
 
 def buduj_i_pakuj(scenery_path):
     scenery_dir = Path(scenery_path).resolve()

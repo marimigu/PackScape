@@ -1,19 +1,20 @@
 # ignoruj plik
-PackScapeX.md
+backup/*.zip
+release/*.zip
+release/*
 # ignoruj wszystkie pliki .pdf
-*.pdf
+#
 # ignoruj pliki .ods
-*.ods
+#
 # ignoruj pliki .csv - narazie
-*.csv
+#
 # ignoruj pliki .py
 #*.py
 #ignoruj pliki .txt
-*.txt
+#
 # ignoruj pliki .log
-*.log
-
+#
 #ignoruj katalogi
 
 __pycache__/
-
+source/

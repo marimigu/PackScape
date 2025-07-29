@@ -10,6 +10,8 @@ from scenery_pipeline import (
     wyczysc_lokalne_tekstury,
     znajdz_tekstury,
     buduj_i_pakuj,
+    znajdz_nieuzywane_pliki,
+    generuj_raport_html,
     sprzataj_i_backupuj
 )
 
@@ -29,6 +31,8 @@ def run_pipeline():
         wyczysc_lokalne_tekstury()
         znajdz_tekstury(sceneria)
         buduj_i_pakuj(sceneria)
+        znajdz_nieuzywane_pliki()
+        generuj_raport_html()
         sprzataj_i_backupuj()
     else:
         print("❌ Konwersja DSF nie powiodła się, pipeline zatrzymany.")
