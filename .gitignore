@@ -1,6 +1,7 @@
 # ignoruj plik
-#backup/
-#release/
+/backup/*.txt
+/backup/*.zip
+/release/*
 # ignoruj wszystkie pliki .pdf
 #
 # ignoruj pliki .ods
@@ -15,5 +16,5 @@
 #
 #ignoruj katalogi
 
-/__pycache__
-/source
+__pycache__/
+source/
