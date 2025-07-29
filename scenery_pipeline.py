@@ -327,11 +327,11 @@ def generuj_raport_html():
   <h1>Raport scenerii: {scenery_name}</h1>
   <p>Data: {datetime.now().strftime("%Y-%m-%d %H:%M:%S")}</p>
 
-  {sekcja("📦 Pliki podstawowe", [str(p.relative_to(scenery)) for p in pliki_podstawowe])}
-  {sekcja("📄 Dokumentacja", [str(p.relative_to(scenery)) for p in dokumentacja])}
-  {sekcja("📁 Dołączone pliki (obiekty_do_budowy)", dolaczone)}
-  {sekcja("🗑️ Nieużywane pliki (placeholder)", nieuzywane)}
-  {sekcja("❌ Missing / Zewnętrzne obiekty", missing)}
+  {sekcja("Pliki podstawowe", [str(p.relative_to(scenery)) for p in pliki_podstawowe])}
+  {sekcja("Dokumentacja", [str(p.relative_to(scenery)) for p in dokumentacja])}
+  {sekcja("Dołączone pliki (obiekty_do_budowy)", dolaczone)}
+  {sekcja("Nieużywane pliki (placeholder)", nieuzywane)}
+  {sekcja("Biblioteki / Zewnętrzne obiekty", missing)}
 
 </body>
 </html>
@@ -373,7 +373,7 @@ def buduj_i_pakuj(scenery_path):
     for linia in obiekty.read_text(encoding="utf-8").splitlines():
         rel_path = Path(linia.strip())
 
-        # 🛠️ Jeśli ścieżka zaczyna się od nazwy scenerii – obetnij ją
+        # Jeśli ścieżka zaczyna się od nazwy scenerii – obetnij ją
         try:
             if rel_path.parts[0] == scenery_name:
                 rel_path = rel_path.relative_to(scenery_name)

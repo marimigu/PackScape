@@ -18,7 +18,7 @@ from scenery_pipeline import (
 def run_pipeline():
     sceneria = init_scenery()
     if not sceneria:
-        print("❌ Nie udało się zainicjować scenerii, przerywam pipeline.")
+        print("Nie udało się zainicjować scenerii, przerywam pipeline.")
         return
 
     output_txt = Path("tmp/output.txt")
@@ -35,7 +35,7 @@ def run_pipeline():
         generuj_raport_html()
         sprzataj_i_backupuj()
     else:
-        print("❌ Konwersja DSF nie powiodła się, pipeline zatrzymany.")
+        print("Konwersja DSF nie powiodła się, pipeline zatrzymany.")
 
 if __name__ == "__main__":
     run_pipeline()
