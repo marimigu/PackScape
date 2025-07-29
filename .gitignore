@@ -1,6 +1,6 @@
 # ignoruj plik
-backup/
-release/
+#backup/
+#release/
 # ignoruj wszystkie pliki .pdf
 #
 # ignoruj pliki .ods
