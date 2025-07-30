@@ -4,6 +4,8 @@ PackScape.
 
 Projekt w Pythonie służący do analizy, oczyszczania i pakowania scenerii dla symulatora lotu **X-Plane**. Automatyzuje wykrywanie zależności, generowanie raportów oraz tworzenie gotowej paczki ZIP ze scenerią.
 
+A Python project for analyzing, cleaning, and packaging scenery for X-Plane flight simulator. It automates dependency detection, report generation, and the creation of a finished scenery ZIP package.
+
 ## Funkcje aplikacji
 
 - Inicjalizacja scenerii (walidacja struktury katalogów, `apt.dat`)
@@ -37,17 +39,18 @@ projekt/
 ├── raporty/                   # Raporty i logi
 ├── release/                   # Gotowe spakowane paczki ZIP
 ├── backup/                    # Archiwalne logi i dane po pakowaniu
-
-Użycie
-
-1.Umieść katalog scenerii w folderze projektu.
-2.Uruchom główny skrypt:
-
-python main.py
-
-3.Postępuj zgodnie z komunikatami w terminalu.
-4.Spakowana paczka znajdzie się w release/, a logi w backup/.
 ```
+## Użycie
+
+1. Umieść katalog scenerii w folderze projektu.
+
+2. Uruchom główny skrypt:
+    > python main.py
+
+3. Postępuj zgodnie z komunikatami w terminalu.
+
+4. Spakowana paczka znajdzie się w release/, a logi w backup/.
+
 ## Pomysły na rozwój
 - Obsługa niestandardowych lokalizacji DSFTool
 - Sprawdzanie brakujących tekstur
