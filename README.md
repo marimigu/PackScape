@@ -12,7 +12,6 @@ A Python project for analyzing, cleaning, and packaging scenery for X-Plane flig
 - Konwersja plików `.dsf` do formatu tekstowego za pomocą `DSFTool`
 - Wydobycie ścieżek obiektów i tekstur
 - Podział na obiekty lokalne i zewnętrzne
-- Weryfikacja brakujących zasobów
 - Automatyczne kopiowanie niezbędnych plików
 - Generowanie paczki ZIP gotowej do dystrybucji
 - Tworzenie raportu HTML i backupu danych
