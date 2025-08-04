@@ -1,11 +1,38 @@
 body {
-  font-family: sans-serif;
-  max-width: 800px;
-  margin: 2em auto;
-  padding: 0 1em;
-  line-height: 1.6;
-  background-color: #d5d7e0;
+  background-color: #f4f4f4;
+  color: #333;
+  font-family: 'Fira Code', monospace;
+  margin: 0;
+  padding: 2em;
 }
-h1 { color: #374785; }
-code { background: #eee; padding: 2px 4px; border-radius: 4px; }
 
+h2,
+h3 {
+  color: #007acc;
+}
+
+.section {
+  margin-bottom: 2em;
+  border-left: 4px solid #007acc;
+  padding-left: 1em;
+  background-color: #ffffff;
+  box-shadow: 0 0 4px rgba(0, 0, 0, 0.05);
+}
+
+.highlight {
+  color: #c586c0;
+  font-weight: bold;
+}
+
+.footer {
+  border-top: 1px solid #ccc;
+  padding-top: 1em;
+  font-size: 0.9em;
+  color: #666;
+}
+
+code {
+  background-color: #eee;
+  padding: 2px 4px;
+  border-radius: 4px;
+}

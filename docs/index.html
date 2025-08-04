@@ -1,31 +1,49 @@
-<!-- docs/index.html -->
 <!DOCTYPE html>
 <html lang="pl">
+
 <head>
-  <meta charset="UTF-8">
-  <title>PackScape – narzędzie do pakowania scenerii X-Plane</title>
-  <link rel="stylesheet" href="style.css">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>PackScape</title>
+  <link href="style.css" rel="stylesheet" type="text/css">
+  
 </head>
+
 <body>
-	<h1>PackScape</h1>
-  <p><strong>PackScape</strong> to narzędzie do tworzenia gotowych paczek scenerii dla symulatora <em>X-Plane</em>.</p>
+  <h2>PackScape</h2>
 
-  <h2>Co robi?</h2>
-  <ul>
-    <li>Analizuje pliki DSF</li>
-    <li>Tworzy listę niezbędnych obiektów i tekstur</li>
-    <li>Kopiuje tylko potrzebne pliki do katalogu <code>release/</code></li>
-    <li>Tworzy raport HTML i archiwum ZIP</li>
-  </ul>
+  <div class="section">
+    <h3>Opis</h3>
+    <p><span class="highlight">PackScape</span> to narzędzie do analizy i pakowania scenerii dla X-Plane 12.
+      Generuje raporty HTML oraz tworzy gotowe paczki ZIP do dystrybucji.</p>
+      <p>Wersja apt.dat 1200</p>
+  </div>
 
-  <h2> Przykład użycia</h2>
-  <pre><code>python3 main.py</code></pre>
+  <div class="section">
+    <h3>Funkcje</h3>
+    <ol>
+      <li>Konwersja DSF do formatu tekstowego (DSFTool)</li>
+      <li>Weryfikacja zasobów i struktury katalogów</li>
+      <li>Generowanie raportów HTML i backupów</li>
+      <li>Tworzenie paczek ZIP gotowych do publikacji</li>
+    </ol>
+  </div>
 
-  <!--<h2> Zrzuty ekranu / przykładowy raport</h2>
-  <p><a href="../raporty/EPOD_Scenery_Pack_12.html">Raport HTML z przykładowej scenerii</a></p>-->
+  <div class="section">
+    <h3>Uruchomienie</h3>
+    <p>Umieść katalog scenerii w folderze projektu.</p>
+    <p>Uruchom główny skrypt:
+    <ul>
+      <li>python main.py</li>
+    </ul>
+    </p>
+    <p>Postępuj zgodnie z komunikatami w terminalu.</p>
+    <p>Spakowana paczka znajdzie się w release/, a logi w backup/.</p>
+  </div>
 
-  <h2> Repozytorium</h2>
-  <p><a href="https://github.com/marimigu/PackScape">github.com/marimigu/PackScape</a></p>
+  <div class="footer">
+    &copy; 2024 PackScape | Projekt open-source | Mariusz M.
+  </div>
 </body>
-</html>
 
+</html>
