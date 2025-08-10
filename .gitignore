@@ -12,8 +12,8 @@
 #*.py
 #ignoruj pliki .txt
 #
-# ignoruj pliki .log
-#
+# ignoruj pliki .backup
+*.backup
 #ignoruj katalogi
 
 __pycache__/

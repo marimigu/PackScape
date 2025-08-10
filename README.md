@@ -50,6 +50,18 @@ projekt/
 
 4. Spakowana paczka znajdzie się w release/, a logi w backup/.
 
+## Usage
+
+1. Place the scenery directory in the project folder.
+
+2. Run the main script:
+
+> python main.py
+
+3. Follow the prompts in the terminal.
+
+4. The zipped package will be located in release/, and the logs will be located in backup/.
+
 ## Pomysły na rozwój
 - Obsługa niestandardowych lokalizacji DSFTool
 - Sprawdzanie brakujących tekstur
