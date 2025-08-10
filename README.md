@@ -56,7 +56,7 @@ projekt/
 
 2. Run the main script:
 
-> python main.py
+	> python main.py
 
 3. Follow the prompts in the terminal.
 
@@ -68,12 +68,19 @@ projekt/
 - Interfejs graficzny (GUI)
 - Eksport raportu jak  HTML lub PDF
 
+## Ideas for Future Development
+- Support for custom DSFTool locations
+- Missing texture detection
+- Graphical User Interface (GUI)
+- Report export as HTML or PDF
+
 
 ## Autor
 Mariusz Migut
 
-Repozytorium: github.com/marimigu/PackScape
+Repository: github.com/marimigu/PackScape
 
-Inspiracja: Społeczność X-Plane.org
+Inspired by: The [X-Plane.org](https://forums.x-plane.org/) community.
 
-[Projekt ma swoją stronę](https://marimigu.github.io/PackScape/) 
+[The project has its own website](https://marimigu.github.io/PackScape/)
+
