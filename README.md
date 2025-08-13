@@ -19,17 +19,12 @@ A Python project for analyzing, cleaning, and packaging scenery for X-Plane flig
 ## Wymagania
 
 - Python 3.9+
-- Moduły: `fpdf2`, `pathlib`, `shutil`, `zipfile`
 - Narzędzie `DSFTool` z pakietu `X-Plane SDK (XPTools)`
 - Katalog `xptools/tools/DSFTool` (lokalizacja binarki)
+- Działa na Windows, Debian
 
-## Zainstaluj zależności:
-
-```bash
-pip install fpdf2
-
-Struktura projektu
-
+### Struktura projektu
+```
 projekt/
 ├── main.py                    # Główny plik uruchamiający cały pipeline
 ├── scenery_pipeline.py        # Moduł z funkcjami przetwarzania scenerii
@@ -42,24 +37,17 @@ projekt/
 ## Użycie
 
 1. Umieść katalog scenerii w folderze projektu.
-
 2. Uruchom główny skrypt:
     > python main.py
-
 3. Postępuj zgodnie z komunikatami w terminalu.
-
 4. Spakowana paczka znajdzie się w release/, a logi w backup/.
 
 ## Usage
 
 1. Place the scenery directory in the project folder.
-
 2. Run the main script:
-
 	> python main.py
-
 3. Follow the prompts in the terminal.
-
 4. The zipped package will be located in release/, and the logs will be located in backup/.
 
 ## Pomysły na rozwój

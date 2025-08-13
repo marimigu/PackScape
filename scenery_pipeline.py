@@ -74,7 +74,7 @@ def konwertuj_dsf_na_tekst(scenery_path, output_path):
             ]
             result = subprocess.run(command, capture_output=True, text=True)
             if result.returncode == 0:
-                print(f"✅ Przetworzono: {dsf.name}")
+                print(f"Przetworzono: {dsf.name}")
                 text = temp_txt.read_text(encoding="utf-8")
                 output_file.write(f"### {dsf.name} ###\n{text}\n\n")
             else:
@@ -261,7 +261,7 @@ def znajdz_nieuzywane_pliki():
                             rel_path = plik
                         f.write(str(rel_path) + "\n")
             else:
-                f.write(f"# ❌ Katalog nie istnieje: {katalog}\n")
+                f.write(f"#  Katalog nie istnieje: {katalog}\n")
 
     # Obliczamy różnicę
     wszystkie = set(plik_wszystkie.read_text(encoding="utf-8").splitlines())
@@ -274,14 +274,14 @@ def znajdz_nieuzywane_pliki():
         for wpis in sorted(nieuzywane):
             f.write(wpis + "\n")
 
-    print(f"✅ Zapisano {len(nieuzywane)} nieużywanych plików do: {plik_wynik}")
+    print(f" Zapisano {len(nieuzywane)} nieużywanych plików do: {plik_wynik}")
 
 
 #------------------------------- miejsce na raport html -----------------------------------
 def generuj_raport_html():
     sc_file = Path("tmp/sceneria.txt")
     if not sc_file.exists():
-        print("❌ Brak pliku tmp/sceneria.txt. Uruchom najpierw main.py")
+        print(" Brak pliku tmp/sceneria.txt. Uruchom najpierw main.py")
         sys.exit(1)
 
     scenery = Path(sc_file.read_text(encoding="utf-8").strip()).resolve()
@@ -337,7 +337,7 @@ def generuj_raport_html():
 </html>
 """
     html_path.write_text(html, encoding="utf-8")
-    print(f"✅ Wygenerowano raport: {html_path}")
+    print(f" Wygenerowano raport: {html_path}")
 
 
 #---------------------------------koniec raportu--------------------------------------------
