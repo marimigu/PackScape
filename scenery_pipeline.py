@@ -2,31 +2,37 @@
 from pathlib import Path
 import subprocess
 from datetime import datetime
+import tkinter as tk
+from tkinter import filedialog
 import sys
 import shutil
 import zipfile
 import os
 
 def init_scenery():
-    sceneria = input("Podaj nazwę katalogu scenerii: ").strip()
-    katalog = Path(sceneria)
-    if not katalog.exists():
-        print(f" Katalog '{sceneria}' nie istnieje.")
-        return None
-    Path("tmp").mkdir(exist_ok=True)
-    Path("tmp/sceneria.txt").write_text(sceneria, encoding="utf-8")
+    # Uruchomienie okna wyboru katalogu
+    root = tk.Tk()
+    root.withdraw()  # Ukryj główne okno
+    sceneria_path = filedialog.askdirectory(title="Wskaż katalog scenerii do obróbki")
 
-    #apt_path = katalog / "apt.dat"
+    if not sceneria_path:
+        print("Nie wybrano katalogu.")
+        return None
+
+    katalog = Path(sceneria_path)
+    if not katalog.exists():
+        print(f" Katalog '{sceneria_path}' nie istnieje.")
+        return None
+
+    Path("tmp").mkdir(exist_ok=True)
+    Path("tmp/sceneria.txt").write_text(str(katalog), encoding="utf-8")
+
     apt_files = list(katalog.rglob("apt.dat"))
     if not apt_files:
-        print(f" Nie znaleziono pliku 'apt.dat' w katalogu '{sceneria}'")
+        print(f"Nie znaleziono pliku 'apt.dat' w katalogu '{sceneria_path}'")
         return None
 
-    apt_path = apt_files[0]  # pierwszy znaleziony
-
-    if not apt_path.exists():
-        print(f" Brak pliku 'apt.dat' w katalogu '{sceneria}'")
-        return None
+    apt_path = apt_files[0]
 
     try:
         lines = apt_path.read_text(encoding="utf-8").splitlines()
@@ -37,17 +43,16 @@ def init_scenery():
 
     Path("raporty").mkdir(exist_ok=True)
     with Path("raporty/log.txt").open("a", encoding="utf-8") as log:
-        log.write(f"Sceneria: {sceneria}, apt.dat wersja: {wersja}\n")
+        log.write(f"Sceneria: {sceneria_path}, apt.dat wersja: {wersja}\n")
 
     if not wersja.startswith("1200"):
-        print(f" Nieobsługiwana wersja apt.dat: {wersja}. Zatrzymano działanie.")
+        print(f"Nieobsługiwana wersja apt.dat: {wersja}. Zatrzymano działanie.")
         return None
 
-    Path("tmp").mkdir(exist_ok=True)
-    Path("tmp/sceneria.txt").write_text(sceneria, encoding="utf-8")
-    print(f" Sceneria '{sceneria}' zaakceptowana. Wersja apt.dat: {wersja}")
+    print(f"Sceneria zaakceptowana: '{sceneria_path}' (wersja apt.dat: {wersja})")
+    return katalog
 
-    return sceneria
+#---------------- analiza_dsf-----------------------------------
 
 def pobierz_sciezke_scenerii():
     sc_path = Path("tmp/sceneria.txt")
@@ -96,6 +101,8 @@ def wypisz_i_zapisz_definicje():
 
     print(" Zapisano linie OBJECT_DEF i POLYGON_DEF do tmp/output2.txt")
 
+#--------------------- output_cleaner.py --------------------------
+
 def przetworz_output_do_output3():
     wejscie = Path("tmp/output2.txt")
     wyjscie = Path("tmp/output3.txt")
@@ -120,6 +127,9 @@ def przetworz_output_do_output3():
 
     print(" Zapisano wynik do tmp/output3.txt")
 
+#----------------- Rozdziel obiekty -------------------------
+# Wersja zmieniona w stosunku do tej z github    
+    
 def rozdziel_obiekty():
     input_file = Path("tmp/output3.txt")
     sceneria_file = Path("tmp/sceneria.txt")
@@ -129,13 +139,15 @@ def rozdziel_obiekty():
         return
 
     scenery_path = sceneria_file.read_text(encoding="utf-8").strip()
-    scenery_folder = Path(scenery_path).name  # np. EPPG_Scenery_Pack_12
+    #scenery_folder = Path(scenery_path).name  # np. EPPG_Scenery_Pack_12
+    scenery_folder = scenery_path  # pełna ścieżka
+
 
     lokalne = []
     zewnetrzne = []
 
     if not input_file.exists():
-        print(" Brak pliku tmp/output3.txt")
+        print("Brak pliku tmp/output3.txt")
         return
 
     with input_file.open("r", encoding="utf-8") as f:
@@ -154,8 +166,10 @@ def rozdziel_obiekty():
     Path("tmp/zewnetrzne.txt").write_text("\n".join(zewnetrzne), encoding="utf-8")
 
     print(f" Lokalnych obiektów: {len(lokalne)}")
-    print(f"️ Zewnętrznych obiektów: {len(zewnetrzne)}")
-    print(" Zapisano raporty w folderze 'tmp'")   
+    print(f" Zewnętrznych obiektów: {len(zewnetrzne)}")
+    print(" Zapisano raporty w folderze 'tmp'")
+
+#------------------------------------- Wypisz tekstury -----------------------------    
      
 def wypisz_tekstury(scenery_path):
     input_file = Path("tmp/lokalne.txt")
@@ -210,6 +224,9 @@ def wyczysc_lokalne_tekstury():
 
     print(f" Zapisano oczyszczoną listę tekstur do: {wyjscie}")
 
+#-------------------------------- Znajdź testury -------------------------------
+# Wersja zmieniona w stosunku do tej z github    
+
 def znajdz_tekstury(bazowa_sciezka):
     wejscie = Path("tmp/lokalne_tekstury_cleaned.txt")
     wyjscie = Path("tmp/file3.txt")
@@ -224,20 +241,28 @@ def znajdz_tekstury(bazowa_sciezka):
 
     bazowa = Path(bazowa_sciezka).resolve()
 
+#   for root, _, files in os.walk(bazowa):
+ #       for nazwa in tekstury:
+  #          if nazwa in files:
+   #             pelna_sciezka = Path(root) / nazwa
+    #            sciezka_wzgledna = pelna_sciezka.relative_to(Path.cwd())
+     #           znalezione.append(str(sciezka_wzgledna))
     for root, _, files in os.walk(bazowa):
         for nazwa in tekstury:
             if nazwa in files:
                 pelna_sciezka = Path(root) / nazwa
-                sciezka_wzgledna = pelna_sciezka.relative_to(Path.cwd())
-                znalezione.append(str(sciezka_wzgledna))
+                znalezione.append(str(pelna_sciezka.resolve()))
+
 
     wyjscie.write_text("\n".join(sorted(znalezione)), encoding="utf-8")
     print(f" Zapisano {len(znalezione)} ścieżek względnych do: {wyjscie}")
+    
 #--------------------------------szukam plików które są nieuzywane -----------------------------
+
 def znajdz_nieuzywane_pliki():
     sc_file = Path("tmp/sceneria.txt")
     if not sc_file.exists():
-        print("❌ Brak pliku tmp/sceneria.txt. Uruchom najpierw main.py")
+        print(" Brak pliku tmp/sceneria.txt. Uruchom najpierw main.py")
         return
 
     sciezka_katalogu = Path(sc_file.read_text(encoding="utf-8").strip()).resolve()
@@ -261,7 +286,7 @@ def znajdz_nieuzywane_pliki():
                             rel_path = plik
                         f.write(str(rel_path) + "\n")
             else:
-                f.write(f"#  Katalog nie istnieje: {katalog}\n")
+                f.write(f" Katalog nie istnieje: {katalog}\n")
 
     # Obliczamy różnicę
     wszystkie = set(plik_wszystkie.read_text(encoding="utf-8").splitlines())
@@ -274,14 +299,14 @@ def znajdz_nieuzywane_pliki():
         for wpis in sorted(nieuzywane):
             f.write(wpis + "\n")
 
-    print(f" Zapisano {len(nieuzywane)} nieużywanych plików do: {plik_wynik}")
+    print(f"✅ Zapisano {len(nieuzywane)} nieużywanych plików do: {plik_wynik}")
 
 
 #------------------------------- miejsce na raport html -----------------------------------
 def generuj_raport_html():
     sc_file = Path("tmp/sceneria.txt")
     if not sc_file.exists():
-        print(" Brak pliku tmp/sceneria.txt. Uruchom najpierw main.py")
+        print("Brak pliku tmp/sceneria.txt. Uruchom najpierw main.py")
         sys.exit(1)
 
     scenery = Path(sc_file.read_text(encoding="utf-8").strip()).resolve()
@@ -337,22 +362,35 @@ def generuj_raport_html():
 </html>
 """
     html_path.write_text(html, encoding="utf-8")
-    print(f" Wygenerowano raport: {html_path}")
+    print(f"Wygenerowano raport: {html_path}")
 
 
-#---------------------------------koniec raportu--------------------------------------------
-
+#-------------------------- Budowanie paczki zip ----------------------------------
+# Wersja zmieniona w strosunku do github
 
 def buduj_i_pakuj(scenery_path):
     scenery_dir = Path(scenery_path).resolve()
+    print(" scenery_dir:", scenery_dir)
+
     scenery_name = scenery_dir.name
-    release_dir = Path("release") / scenery_name
+    print(" scenery_name:", scenery_name)
+
+    # Katalog skryptu
+    script_dir = Path(__file__).resolve().parent
+
+    # release obok katalogu skryptu
+    #release_dir = script_dir.parent / "release" / scenery_name
+    #release_dir.mkdir(parents=True, exist_ok=True)
+    
+    # release w katalogu skryptu
+    release_dir = script_dir / "release" / scenery_name
     release_dir.mkdir(parents=True, exist_ok=True)
 
+
     # 1. Połącz pliki
-    lokalne = Path("tmp/lokalne.txt")
-    file3 = Path("tmp/file3.txt")
-    obiekty = Path("tmp/obiekty_do_budowy.txt")
+    lokalne = script_dir / "tmp/lokalne.txt"
+    file3 = script_dir / "tmp/file3.txt"
+    obiekty = script_dir / "tmp/obiekty_do_budowy.txt"
 
     if not lokalne.exists() or not file3.exists():
         print(" Brak plików tmp/lokalne.txt lub tmp/file3.txt")
@@ -369,19 +407,22 @@ def buduj_i_pakuj(scenery_path):
         shutil.copytree(earth_src, earth_dst, dirs_exist_ok=True)
         print(" Skopiowano Earth nav data")
 
-        # 3. Kopiuj pliki z listy
+    # 3. Kopiuj pliki z listy
     for linia in obiekty.read_text(encoding="utf-8").splitlines():
-        rel_path = Path(linia.strip())
+        full_path = Path(linia.strip()).resolve()
 
-        # Jeśli ścieżka zaczyna się od nazwy scenerii – obetnij ją
+        # Wylicz ścieżkę względną względem katalogu scenerii
         try:
-            if rel_path.parts[0] == scenery_name:
-                rel_path = rel_path.relative_to(scenery_name)
-        except IndexError:
-            continue  # pomiń puste linie
+            rel_path = full_path.relative_to(scenery_dir)
+        except ValueError:
+            print(f" Pominięto spoza scenerii: {full_path}")
+            continue
 
-        src = scenery_dir / rel_path
+        src = full_path
         dst = release_dir / rel_path
+
+        print(f" Kopiuję: {src}")
+        print(f" Do:      {dst}")
 
         if src.exists():
             dst.parent.mkdir(parents=True, exist_ok=True)
@@ -389,13 +430,12 @@ def buduj_i_pakuj(scenery_path):
                 shutil.copy2(src, dst)
                 print(f" Skopiowano: {rel_path}")
             except Exception as e:
-                print(f"️ Błąd kopiowania {rel_path}: {e}")
+                print(f" Błąd kopiowania {rel_path}: {e}")
         else:
-            print(f"️ Nie znaleziono pliku: {src}")
-
+            print(f" Nie znaleziono pliku: {src}")
 
     # 4. Pakuj do ZIP
-    zip_path = Path("release") / f"{scenery_name}.zip"
+    zip_path = release_dir.parent / f"{scenery_name}.zip"
     with zipfile.ZipFile(zip_path, 'w', zipfile.ZIP_DEFLATED) as zipf:
         for file in release_dir.rglob("*"):
             if file.is_file():
@@ -403,10 +443,8 @@ def buduj_i_pakuj(scenery_path):
 
     print(f" Spakowano paczkę do ZIP: {zip_path}")
 
-from pathlib import Path
-import shutil
-import zipfile
-from datetime import datetime
+#----------------------------------------- Sprzątaj i zrób archiwum ----------------------
+# Wersja zmieniona w stosunku do wersji z github
 
 def sprzataj_i_backupuj():
     sceneria_file = Path("tmp/sceneria.txt")
@@ -414,7 +452,11 @@ def sprzataj_i_backupuj():
         print(" Brak pliku tmp/sceneria.txt")
         return
 
-    scenery_name = sceneria_file.read_text(encoding="utf-8").strip()
+    #scenery_name = sceneria_file.read_text(encoding="utf-8").strip()
+    # to jest poprawka z 12.08.2025
+    scenery_path = Path(sceneria_file.read_text(encoding="utf-8").strip())
+    scenery_name = scenery_path.name
+
 
     backup_dir = Path("backup")
     backup_dir.mkdir(exist_ok=True)
@@ -442,4 +484,5 @@ def sprzataj_i_backupuj():
         if folder.exists():
             shutil.rmtree(folder)
             print(f" Usunięto katalog: {folder}")
+
 

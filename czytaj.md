@@ -6,3 +6,10 @@
 
 #### UWAGA
 Nie trzeba żadnych modułów dodatkowych instalować poprzez pip3.
+
+#### Pierwsze starcie
+- Nie działa pełna ścieżka nie dodaje tekstur.
+
+#### Drugie starcie
+- Pozmieniałem ścieżki dostępu do scenerii. Trzeba było dokonać zmian w kilku funkcjach. Opisy są porobione w `scenery_pipeline.py` które funkcje zmieniłem.
+- Kontrola działania na Windows 11. Działa.
